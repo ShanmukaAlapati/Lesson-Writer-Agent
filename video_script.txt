@@ -1,0 +1,232 @@
+VIDEO SCRIPT — Self-Evaluating Lesson Content Generator
+Target length: 15-20 min
+Format: face-visible for intro/wrap-up, screen-share for the rest
+
+============================================================
+0. BEFORE YOU HIT RECORD
+============================================================
+- Clear the output/ folder and pitfalls.db (repo root) so the demo run is clean.
+- Have three terminal tabs ready:
+    1) for the real end-to-end run
+    2) for demo_catch.py (deliberate-error demo)
+    3) for the code editor
+- Have README.md, rubric.py, nodes.py, graph.py, config.py, memory/store.py
+  open in tabs so you can flip to them without hunting.
+
+============================================================
+1. INTRO — face visible (0:00 - 1:30)
+============================================================
+"Hi, I'm [name]. This is my submission for the GenAI Engineer, Content
+Systems assessment — a self-evaluating lesson content generator for
+'Introduction to RAG.'
+
+The brief is clear that this isn't 'write one good prompt.' It's build a
+system that generates a lesson, judges its own work against a rubric,
+and decides on its own whether that's good enough to ship — before a
+human ever reads it. So that's what I focused on: the generate →
+evaluate → regenerate loop, and making the evaluation step something I
+could trust, not just a vibes-based LLM call.
+
+I'll walk through: the architecture and why it's built this way, a live
+end-to-end run, the evaluator catching a deliberately broken lesson on
+demand, and a quick tour of the code."
+
+============================================================
+2. ARCHITECTURE — screen: README diagram + pipeline/graph.py (1:30 - 4:30)
+============================================================
+[SHOW: README.md architecture diagram]
+
+"The pipeline is three nodes in a LangGraph state machine: generate,
+evaluate, and finalize.
+
+GENERATE writes a standalone beginner lesson for the topic — in this
+case RAG. The system prompt pins the audience explicitly: a 12th-grade
+graduate in India, limited English vocabulary, non-English-medium
+schooling, zero prior exposure to AI. That's not just a nice-to-have in
+the prompt — it's also one of the rubric checkpoints, so the audience
+constraint is enforced on both ends, not just requested once.
+
+EVALUATE sends that lesson to a second LLM call along with a fixed
+checklist — seven hard pass/fail checkpoints, no partial credit, no 1-to-10
+score. [SHOW: rubric.py] I made every checkpoint binary on purpose: a
+scored rubric lets a mediocre lesson average out to a passing grade, and
+gives no clean signal for when to stop retrying. One FAIL is enough to
+force another attempt.
+
+The seven checks are: accurate and grounded, beginner-friendly language,
+teaches by example, no unexplained jargon, covers what/why/how,
+teaches the exact topic, and coherent teaching flow.
+
+If anything fails, the router sends it back to GENERATE with the exact
+failed checks and reasons fed into the next prompt — 'you failed these
+specifically, fix them.' [SHOW: pipeline/nodes.py — make_generate_node]
+That's the within-run feedback loop.
+
+Retries are capped — max 2 by default — so the loop always terminates,
+even if the lesson never fully passes. If it exhausts retries, it still
+ships the best attempt, plus a full rejection log of what failed and why
+on every try. [SHOW: pipeline/nodes.py — make_finalize_node]
+
+One more design point: generation and evaluation use two separate
+provider instances, each resolvable to its own API key or model.
+[SHOW: config.py] The idea is that an evaluator sharing infrastructure
+with its own generator is a weaker check — this keeps the door open to
+judge with a different or stronger model than the one that wrote the
+lesson."
+
+============================================================
+3. LIVE END-TO-END RUN — screen: terminal (4:30 - 9:00)
+============================================================
+[SHOW: terminal, run the real CLI]
+
+Command:
+  python app.py
+  (then type the topic when prompted)
+
+"Let's run it for real, live, on the submission topic. Just type the topic
+when it asks.
+
+[narrate while it runs]
+It's calling the generator now, writing a first draft... now that draft
+goes to the evaluator, which checks it against all six rubric items...
+
+[if it passes on attempt 1]
+It passed on the first attempt — but that's not guaranteed, and I want
+to show you what happens on a fail too, so let's look at the rejection
+log either way."
+
+[SHOW: output/rag_retrieval_augmented_generation/lesson_final.md]
+"This is the shipped lesson — the one that cleared every checkpoint."
+
+[SHOW: output/rag_retrieval_augmented_generation/rejection_log.json]
+"And this is the full paper trail: run id, final status, total attempts,
+and — if there were any — exactly which checkpoint failed on which
+attempt and why, plus the final verdict on every checkpoint. This is the
+'what failed, why, and what changed on retry' artifact the brief asks
+for."
+
+[If you have time/want a guaranteed regenerate for the video, mention:]
+"I also tested this with intentionally low max_tokens to force a
+truncated, jargon-heavy first draft, just to confirm the regenerate path
+actually fires and the feedback loop works — it does; the second draft
+picks up the reasons from the failed checks."
+
+============================================================
+4. EVALUATOR CATCHES A DELIBERATE ERROR (9:00 - 13:00)
+============================================================
+[SHOW: pipeline/nodes.py — DELIBERATELY_BROKEN_LESSON]
+
+"To prove the evaluator actually rejects bad content — not just rubber-
+stamps whatever it's given — I built a fixture: a lesson that's
+factually wrong and jargon-heavy on purpose. It claims RAG stands for
+'Rapid Application Generation,' invented by Google in 2019, and it's
+full of unexplained jargon like 'stochastic backpropagation across the
+latent manifold.'
+
+This is a separate one-off script, not a CLI flag, because it's a demo
+tool, not a feature of the real pipeline."
+
+[SHOW: terminal]
+Command:
+  python demo_catch.py
+
+[narrate the output as it prints]
+"And there it is — the evaluator is rejecting it. [point at each FAIL
+line] Accurate & Grounded fails because RAG's definition is wrong. No
+Unexplained Jargon fails because of the invented terminology. This is
+independent of live-generation randomness — same broken input every
+time, same rejection every time."
+
+============================================================
+5. SELF-EVOLVING / CROSS-RUN MEMORY (13:00 - 15:30)
+============================================================
+[SHOW: memory/store.py]
+
+"There are two feedback mechanisms in this system, not one. Within a
+run, a failed attempt's specific reasons go straight into the next
+generation prompt — that's the regenerate loop you just saw.
+
+Across runs, this SQLite store logs every failed checkpoint, for every
+topic, forever. [SHOW: get_common_pitfalls] Before writing the very
+first draft of a brand-new topic, the generator checks: which
+checkpoints have failed most often, historically, across every topic
+this system has ever attempted? If a checkpoint has failed at least a
+couple of times before, that gets injected into the very first prompt
+as 'the system has seen these mistakes before, don't repeat them.'
+
+That's the 'self-evolving' piece from the brief — the system doesn't
+just correct itself within a request, it gets marginally better at
+avoiding its own recurring mistakes over time, topic after topic.
+
+I used SQLite instead of a flat JSON file specifically because two runs
+finishing close together would both read-modify-write a JSON file and
+one would silently clobber the other's failures. SQLite gives atomic
+inserts for free with no server to run — which felt like the right
+amount of infrastructure for the actual correctness property being
+protected."
+
+============================================================
+6. QUICK CODE TOUR (15:30 - 18:00)
+============================================================
+[SHOW: file tree / pipeline/graph.py]
+
+"Quickly on how it's put together: three node factory functions —
+make_generate_node, make_evaluate_node, make_finalize_node — each takes
+its dependencies as arguments instead of reaching for a global client.
+
+The judge's raw response is a JSON array of verdicts, and before I trust
+it I run it through validate_judge_output [SHOW: rubric.py] — it checks
+every checkpoint id is real, every verdict is exactly PASS or FAIL, and
+all six checkpoints are present exactly once. If the judge returns
+malformed output, that gets one bounded retry of its own, separate from
+the content retry budget, because a judge parsing failure is a different
+problem than the lesson itself failing the rubric.
+
+That retry isn't a blind repeat, either. [SHOW: pipeline/nodes.py --
+evaluate_node retry branch] The provider now returns a finish_reason
+alongside the text, so the retry can tell a truncated response apart
+from a malformed one -- truncated gets double the token budget, and
+malformed gets the exact validation error fed back with an explicit
+'raw JSON only' instruction. Same bounded retry budget, but it reacts to
+what actually went wrong instead of just trying again and hoping.
+
+LLM calls all go through one provider class with a single .complete()
+method [SHOW: llm/groq_provider.py] — right now it's wired to
+Groq directly via the Groq SDK, but nothing else in the codebase knows
+or cares which vendor is behind that call. The original OpenRouter
+provider is still there, commented out, for easy switching."
+
+============================================================
+7. TRADE-OFFS / WHAT I'D ADD WITH MORE TIME (18:00 - 19:30)
+============================================================
+"A few things I'd add given more time: multiple judge passes with
+self-consistency voting on borderline verdicts, since right now a single
+judge call is trusted as ground truth. A held-out set of lessons with
+known injected errors, to actually measure the evaluator's precision and
+recall instead of trusting it on faith. And diff-aware regeneration —
+patching just the failing section instead of rewriting the whole lesson
+on every retry, which would cut cost and latency on the retry path."
+
+============================================================
+8. WRAP-UP — face visible (19:30 - 20:00)
+============================================================
+"That's the system end-to-end: generate, evaluate against a hard
+pass/fail rubric, regenerate with targeted feedback, terminate within a
+retry cap, ship the lesson plus a full rejection log — and get slightly
+better at avoiding its own past mistakes with every topic it runs on.
+Repo and README are linked below with setup and run instructions. Thanks
+for watching."
+
+============================================================
+NOTES TO SELF
+============================================================
+- Keep it conversational — read the bolded talking points as ideas, not
+  word-for-word, so it doesn't sound scripted on camera.
+- If the live run happens to pass on attempt 1 (likely, since it's a
+  well-covered topic), still open rejection_log.json to show the schema
+  even though rejection_history will be empty.
+- Don't skip the face-visible intro/wrap-up — the brief explicitly asks
+  for a face-visible walkthrough segment.
+- Time-box section 6 (code tour) hardest — it's the easiest place to run
+  long. If you're behind schedule, cut it down to graph.py + rubric.py
+  only.
