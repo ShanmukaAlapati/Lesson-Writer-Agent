@@ -1,66 +1,20 @@
-2026-08-26 18:50:42,439 INFO run_id=fce732602fa4 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 18:50:42,469 INFO run_id=fce732602fa4 pipeline.nodes: generate_node run_id=fce732602fa4 attempt=0 topic='use of reranker in agentic rag'
-2026-08-26 18:50:43,653 INFO run_id=fce732602fa4 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 18:50:43,657 INFO run_id=fce732602fa4 pipeline.nodes: evaluate_node run_id=fce732602fa4 all_passed=True failed=0
-2026-08-26 18:50:43,681 INFO run_id=fce732602fa4 pipeline.nodes: finalize_node run_id=fce732602fa4 status=PASSED total_attempts=1 best_attempt=0
-2026-08-26 18:59:28,441 INFO run_id=62b49fb0014f httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 18:59:28,473 INFO run_id=62b49fb0014f pipeline.nodes: generate_node run_id=62b49fb0014f attempt=0 topic='use of reranker in agentic rag'
-2026-08-26 18:59:29,693 INFO run_id=62b49fb0014f httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 18:59:29,693 INFO run_id=62b49fb0014f pipeline.nodes: evaluate_node run_id=62b49fb0014f all_passed=False failed=1
-2026-08-26 18:59:31,738 INFO run_id=62b49fb0014f httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 18:59:31,738 INFO run_id=62b49fb0014f pipeline.nodes: generate_node run_id=62b49fb0014f attempt=1 topic='use of reranker in agentic rag'
-2026-08-26 18:59:32,953 INFO run_id=62b49fb0014f httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 18:59:32,955 INFO run_id=62b49fb0014f pipeline.nodes: evaluate_node run_id=62b49fb0014f all_passed=False failed=1
-2026-08-26 18:59:35,133 INFO run_id=62b49fb0014f httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 18:59:35,133 INFO run_id=62b49fb0014f pipeline.nodes: generate_node run_id=62b49fb0014f attempt=2 topic='use of reranker in agentic rag'
-2026-08-26 18:59:36,200 INFO run_id=62b49fb0014f httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 18:59:36,201 INFO run_id=62b49fb0014f pipeline.nodes: evaluate_node run_id=62b49fb0014f all_passed=False failed=1
-2026-08-26 18:59:36,212 INFO run_id=62b49fb0014f pipeline.nodes: finalize_node run_id=62b49fb0014f status=MAX RETRIES REACHED -- shipping best attempt (attempt 2, 5/6 checks passed) total_attempts=3 best_attempt=2
-2026-08-26 19:06:44,630 INFO run_id=18c2125e9835 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:06:44,645 INFO run_id=18c2125e9835 pipeline.nodes: generate_node run_id=18c2125e9835 attempt=0 topic='use of reranker in agentic rag'
-2026-08-26 19:06:45,832 INFO run_id=18c2125e9835 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:06:45,832 INFO run_id=18c2125e9835 pipeline.nodes: evaluate_node run_id=18c2125e9835 all_passed=False failed=2
-2026-08-26 19:06:48,134 INFO run_id=18c2125e9835 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:06:48,134 INFO run_id=18c2125e9835 pipeline.nodes: generate_node run_id=18c2125e9835 attempt=1 topic='use of reranker in agentic rag'
-2026-08-26 19:06:49,519 INFO run_id=18c2125e9835 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:06:49,519 INFO run_id=18c2125e9835 pipeline.nodes: evaluate_node run_id=18c2125e9835 all_passed=False failed=2
-2026-08-26 19:06:49,568 INFO run_id=18c2125e9835 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
-2026-08-26 19:06:49,568 INFO run_id=18c2125e9835 groq._base_client: Retrying request to /openai/v1/chat/completions in 3.000000 seconds
-2026-08-26 19:06:54,693 INFO run_id=18c2125e9835 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:06:54,693 INFO run_id=18c2125e9835 pipeline.nodes: generate_node run_id=18c2125e9835 attempt=2 topic='use of reranker in agentic rag'
-2026-08-26 19:06:55,879 INFO run_id=18c2125e9835 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:06:55,879 INFO run_id=18c2125e9835 pipeline.nodes: evaluate_node run_id=18c2125e9835 all_passed=False failed=2
-2026-08-26 19:06:55,907 INFO run_id=18c2125e9835 pipeline.nodes: finalize_node run_id=18c2125e9835 status=MAX RETRIES REACHED -- shipping best attempt (attempt 2, 5/7 checks passed) total_attempts=3 best_attempt=2
-2026-08-26 19:15:03,385 INFO run_id=e2808632f723 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:15:03,411 INFO run_id=e2808632f723 pipeline.nodes: generate_node run_id=e2808632f723 attempt=0 topic='use of reranker in agentic rag'
-2026-08-26 19:15:04,626 INFO run_id=e2808632f723 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:15:04,626 INFO run_id=e2808632f723 pipeline.nodes: evaluate_node run_id=e2808632f723 all_passed=False failed=2
-2026-08-26 19:15:06,600 INFO run_id=e2808632f723 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:15:06,616 INFO run_id=e2808632f723 pipeline.nodes: generate_node run_id=e2808632f723 attempt=1 topic='use of reranker in agentic rag'
-2026-08-26 19:15:07,695 INFO run_id=e2808632f723 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:15:07,697 INFO run_id=e2808632f723 pipeline.nodes: evaluate_node run_id=e2808632f723 all_passed=True failed=0
-2026-08-26 19:15:07,722 INFO run_id=e2808632f723 pipeline.nodes: finalize_node run_id=e2808632f723 status=PASSED total_attempts=2 best_attempt=1
-2026-08-26 19:16:42,133 INFO run_id=27a65aecf589 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:16:42,176 INFO run_id=27a65aecf589 pipeline.nodes: generate_node run_id=27a65aecf589 attempt=0 topic='Explain Ebeddings'
-2026-08-26 19:16:43,465 INFO run_id=27a65aecf589 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:16:43,465 INFO run_id=27a65aecf589 pipeline.nodes: evaluate_node run_id=27a65aecf589 all_passed=False failed=4
-2026-08-26 19:16:45,954 INFO run_id=27a65aecf589 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:16:45,954 INFO run_id=27a65aecf589 pipeline.nodes: generate_node run_id=27a65aecf589 attempt=1 topic='Explain Ebeddings'
-2026-08-26 19:16:47,028 INFO run_id=27a65aecf589 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:16:47,028 INFO run_id=27a65aecf589 pipeline.nodes: evaluate_node run_id=27a65aecf589 all_passed=True failed=0
-2026-08-26 19:16:47,056 INFO run_id=27a65aecf589 pipeline.nodes: finalize_node run_id=27a65aecf589 status=PASSED total_attempts=2 best_attempt=1
-2026-08-26 19:31:25,135 INFO run_id=2c7553fba19b httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:31:25,166 INFO run_id=2c7553fba19b pipeline.nodes: generate_node run_id=2c7553fba19b attempt=0 topic='Explain Ebeddings'
-2026-08-26 19:31:25,835 INFO run_id=2c7553fba19b httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:31:25,835 WARNING run_id=2c7553fba19b pipeline.nodes: evaluate_node run_id=2c7553fba19b judge output failed validation (attempt 0): No JSON array found in judge output -- raw response started with: '{\n  "accurate_grounded": "PASS",\n  "beginner_language": "PASS",\n  "teaches_by_example": "PASS",\n  "no_unexplained_jargon": "PASS",\n  "covers_key_points": "PASS",\n  "topic_specificity": "PASS",\n  "coherent_flow": "PASS"\n}'
-2026-08-26 19:31:27,042 INFO run_id=2c7553fba19b httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:31:27,042 INFO run_id=2c7553fba19b pipeline.nodes: evaluate_node run_id=2c7553fba19b all_passed=False failed=1
-2026-08-26 19:31:29,348 INFO run_id=2c7553fba19b httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:31:29,348 INFO run_id=2c7553fba19b pipeline.nodes: generate_node run_id=2c7553fba19b attempt=1 topic='Explain Ebeddings'
-2026-08-26 19:31:29,982 INFO run_id=2c7553fba19b httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:31:29,982 WARNING run_id=2c7553fba19b pipeline.nodes: evaluate_node run_id=2c7553fba19b judge output failed validation (attempt 0): No JSON array found in judge output -- raw response started with: '{\n  "accurate_grounded": "FAIL",\n  "beginner_language": "PASS",\n  "teaches_by_example": "PASS",\n  "no_unexplained_jargon": "FAIL",\n  "covers_key_points": "PASS",\n  "topic_specificity": "PASS",\n  "coherent_flow": "PASS"\n}'
-2026-08-26 19:31:30,030 INFO run_id=2c7553fba19b httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
-2026-08-26 19:31:30,030 INFO run_id=2c7553fba19b groq._base_client: Retrying request to /openai/v1/chat/completions in 11.000000 seconds
-2026-08-26 19:31:42,327 INFO run_id=2c7553fba19b httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
-2026-08-26 19:31:42,327 INFO run_id=2c7553fba19b pipeline.nodes: evaluate_node run_id=2c7553fba19b all_passed=True failed=0
-2026-08-26 19:31:42,358 INFO run_id=2c7553fba19b pipeline.nodes: finalize_node run_id=2c7553fba19b status=PASSED total_attempts=2 best_attempt=1
+2026-08-26 22:05:10,431 INFO run_id=eb1294b0438c httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-26 22:05:10,460 INFO run_id=eb1294b0438c pipeline.nodes: evaluate_node run_id=demo all_passed=False failed=7 failed_checks=['accurate_grounded', 'beginner_language', 'teaches_by_example', 'no_unexplained_jargon', 'covers_key_points', 'topic_specificity', 'coherent_flow']
+2026-08-26 22:11:34,791 INFO run_id=6b537c072b26 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-26 22:11:34,814 INFO run_id=6b537c072b26 pipeline.nodes: evaluate_node run_id=demo all_passed=False failed=7 failed_checks=['accurate_grounded', 'beginner_language', 'teaches_by_example', 'no_unexplained_jargon', 'covers_key_points', 'topic_specificity', 'coherent_flow']
+2026-08-26 22:12:51,186 INFO run_id=8bb0294793c2 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-26 22:12:51,221 INFO run_id=8bb0294793c2 pipeline.nodes: generate_node run_id=8bb0294793c2 attempt=0 topic='RAG - Retrieval-Augmented Generation'
+2026-08-26 22:12:52,576 INFO run_id=8bb0294793c2 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-26 22:12:52,576 INFO run_id=8bb0294793c2 pipeline.nodes: evaluate_node run_id=8bb0294793c2 all_passed=False failed=2 failed_checks=['accurate_grounded', 'topic_specificity']
+2026-08-26 22:12:54,533 INFO run_id=8bb0294793c2 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-26 22:12:54,535 INFO run_id=8bb0294793c2 pipeline.nodes: generate_node run_id=8bb0294793c2 attempt=1 topic='RAG - Retrieval-Augmented Generation'
+2026-08-26 22:12:55,514 INFO run_id=8bb0294793c2 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-26 22:12:55,514 INFO run_id=8bb0294793c2 pipeline.nodes: evaluate_node run_id=8bb0294793c2 all_passed=True failed=0 failed_checks=[]
+2026-08-26 22:12:55,538 INFO run_id=8bb0294793c2 pipeline.nodes: finalize_node run_id=8bb0294793c2 status=PASSED total_attempts=2 best_attempt=1
+2026-08-26 22:21:09,591 INFO run_id=a69072a9b88e httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-26 22:21:09,625 INFO run_id=a69072a9b88e pipeline.nodes: evaluate_node run_id=demo all_passed=False failed=7 failed_checks=['accurate_grounded', 'beginner_language', 'teaches_by_example', 'no_unexplained_jargon', 'covers_key_points', 'topic_specificity', 'coherent_flow']
+2026-08-26 22:22:30,068 INFO run_id=f102f4e0bef6 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-26 22:22:30,092 INFO run_id=f102f4e0bef6 pipeline.nodes: generate_node run_id=f102f4e0bef6 attempt=0 topic='RAG - Retrieval-Augmented Generation'
+2026-08-26 22:22:31,135 INFO run_id=f102f4e0bef6 httpx: HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-26 22:22:31,139 INFO run_id=f102f4e0bef6 pipeline.nodes: evaluate_node run_id=f102f4e0bef6 all_passed=True failed=0 failed_checks=[]
+2026-08-26 22:22:31,153 INFO run_id=f102f4e0bef6 pipeline.nodes: finalize_node run_id=f102f4e0bef6 status=PASSED total_attempts=1 best_attempt=0

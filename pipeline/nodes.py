@@ -75,10 +75,14 @@ def make_evaluate_node(llm, max_tokens):
         "non-English-medium schooling, and zero AI or programming knowledge. "
         "Judge every checkpoint as PASS or FAIL. There is no partial credit. "
         "Return only valid JSON."
-)
+    )
 
     def evaluate_node(state):
-        base_user = f"CHECKLIST:\n{checklist_text}\n\nLESSON TO JUDGE:\n{state['lesson']}"
+        base_user = (
+            f"CHECKLIST:\n{checklist_text}\n\nLESSON TO JUDGE:\n{state['lesson']}\n\n"
+            "Return exactly this JSON array format:\n"
+            '[{"id":"check_id","verdict":"PASS or FAIL","reason":"short clear reason"}]'
+        )
 
         judge_output = None
         last_error = None
@@ -146,10 +150,11 @@ def make_evaluate_node(llm, max_tokens):
                 "failed_checks": failed,
             })
 
+        failed_ids = [c["id"] for c in checks if c["verdict"] == "FAIL"]
         logger.info(
-            "evaluate_node run_id=%s all_passed=%s failed=%d",
+            "evaluate_node run_id=%s all_passed=%s failed=%d failed_checks=%s",
             state["run_id"], state["all_passed"],
-            sum(1 for c in checks if c["verdict"] == "FAIL"),
+            len(failed_ids), failed_ids,
         )
         return state
 
@@ -224,62 +229,6 @@ def make_finalize_node(memory, output_dir):
         return state
 
     return finalize_node
-
-# def make_finalize_node(memory, output_dir):
-#     import os
-
-#     def finalize_node(state):
-#         topic_slug = re.sub(r"[^a-z0-9]+", "_", state["topic"].lower()).strip("_") or "topic"
-#         run_output_dir = os.path.join(output_dir, topic_slug)
-#         os.makedirs(run_output_dir, exist_ok=True)
-
-#         # Pick the highest-scoring attempt, not just the last one -- on a
-#         # tie, prefer the later attempt.
-#         history = state.get("attempt_history", [])
-#         best = max(history, key=lambda a: (a["pass_count"], a["attempt"]))
-#         state["lesson"] = best["lesson"]
-#         state["checks"] = best["checks"]
-#         state["output_path"] = run_output_dir
-
-#         with open(os.path.join(run_output_dir, "lesson_final.md"), "w") as f:
-#             f.write(best["lesson"])
-
-#         total_attempts = len(history)
-#         status = "PASSED" if state["all_passed"] else (
-#             f"MAX RETRIES REACHED -- shipping best attempt "
-#             f"(attempt {best['attempt']}, {best['pass_count']}/{len(best['checks'])} checks passed)"
-#         )
-
-#         with open(os.path.join(run_output_dir, "rejection_log.json"), "w") as f:
-#             json.dump({
-#                 "run_id": state["run_id"],
-#                 "topic": state["topic"],
-#                 "final_status": status,
-#                 "total_attempts": total_attempts,
-#                 "best_attempt": best["attempt"],
-#                 "rejection_history": state["rejection_log"],
-#                 "final_checks": best["checks"],
-#             }, f, indent=2)
-
-#         all_failed = [
-#             (c["id"], c["reason"]) for r in state["rejection_log"] for c in r["failed_checks"]
-#         ]
-#         if all_failed:
-#             memory.record_failures(state["run_id"], state["topic"], all_failed)
-
-#         memory.save_lesson(
-#             state["run_id"], state["topic"], best["lesson"], best["checks"],
-#             total_attempts, best["attempt"],
-#         )
-
-#         logger.info(
-#             "finalize_node run_id=%s status=%s total_attempts=%d best_attempt=%d",
-#             state["run_id"], status, total_attempts, best["attempt"],
-#         )
-#         return state
-
-#     return finalize_node
-
 
 # ---------------------------------------------------------------------------
 # Deliberate-error demo fixture (used by demo_catch.py)

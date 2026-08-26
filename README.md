@@ -156,6 +156,24 @@ infrastructure nobody asked for.
 - Diff-aware regeneration (patch only the failing section instead of
   rewriting the whole lesson on every retry).
 
+## Memory schema (`pitfalls.db`)
+
+Two tables, created automatically on first run by `memory/store.py`.
+
+**`rubric_failures`** — every failed checkpoint from every attempt, across all topics. This is what `get_common_pitfalls()` aggregates to warn new generations about recurring mistakes.
+
+| id | run_id         | topic                  | check_id           | reason                                              | created_at          |
+|----|----------------|-------------------------|---------------------|------------------------------------------------------|---------------------|
+| 1  | 62b49fb0014f   | use of reranker in agentic rag | no_unexplained_jargon | Uses "cross-encoder" and "cosine similarity" without defining them | 2026-08-26 18:59:29 |
+| 2  | 18c2125e9835   | use of reranker in agentic rag | topic_specificity  | Lesson stays generic about RAG and never explains reranking specifically | 2026-08-26 19:06:45 |
+
+**`lessons`** — every *shipped* lesson (the best attempt of each run), with its final grading result. Not read by anything yet — groundwork for a future "has a similar topic already been generated?" lookup.
+
+| id | run_id       | topic                   | lesson (truncated)              | all_passed | pass_count | total_checks | failed_checks (JSON) | total_attempts | best_attempt |
+|----|--------------|--------------------------|----------------------------------|------------|------------|---------------|------------------------|----------------|--------------|
+| 1  | e2808632f723 | use of reranker in agentic rag | "# Reranking in Agentic RAG\n\n..." | 1          | 7          | 7             | []                     | 2              | 1            |
+| 2  | 27a65aecf589 | Explain Ebeddings        | "# What Are Embeddings?\n\n..."  | 1          | 7          | 7             | []                     | 2              | 1            |
+
 ## Setup
 
 ```bash

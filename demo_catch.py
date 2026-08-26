@@ -4,11 +4,14 @@ and print its verdicts. Run with: python demo_catch.py
 """
 
 from config import get_settings
-from llm.openrouter_provider import OpenRouterProvider
+from llm.groq_provider import GroqProvider
+from logging_config import configure_logging, new_run_id
 from pipeline.nodes import DELIBERATELY_BROKEN_LESSON, make_evaluate_node
 
 settings = get_settings()
-evaluate_llm = OpenRouterProvider(
+configure_logging(settings.log_level)
+new_run_id()
+evaluate_llm = GroqProvider(
     api_key=settings.resolved_evaluate_key(), models=settings.resolved_evaluate_models()
 )
 

@@ -18,8 +18,8 @@ def main() -> None:
     except ConfigurationError as exc:
         sys.exit(str(exc))
 
-    configure_logging(settings.log_level)
-    new_run_id()
+    configure_logging(settings.log_level) # this is for configuring the logging of the application 
+    new_run_id() # this is for giving unique run id to each run and this will be used in logging 
 
     generate_llm = GroqProvider(
         api_key=settings.resolved_generate_key(), models=settings.resolved_generate_models()
@@ -28,7 +28,7 @@ def main() -> None:
         api_key=settings.resolved_evaluate_key(), models=settings.resolved_evaluate_models()
     )
 
-    store = MemoryStore(settings.memory_db_path)
+    store = MemoryStore(settings.memory_db_path) 
     graph = build_graph(
         generate_llm, evaluate_llm, store,
         max_retries=settings.max_retries,
